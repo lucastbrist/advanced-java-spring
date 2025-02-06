@@ -3,7 +3,7 @@ package com.codingnomads.corespring.examples.beanscopes.prototype;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class ProtoTypeDemo {
+public class PrototypeDemo {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(PrototypeDemoConfig.class);

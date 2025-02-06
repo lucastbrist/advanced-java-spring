@@ -32,3 +32,5 @@ out/
 src/main/generated/
 ### VS Code ###
 .vscode/
+
+src/main/resources/application.properties
