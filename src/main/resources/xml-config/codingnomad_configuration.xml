@@ -18,5 +18,8 @@
         <property name="name" value="OpenJDK"/>
         <property name="version" value="17"/>
     </bean>
+    <bean id="coffee" class="com.codingnomads.corespring.examples.application_context.xml.Coffee">
+        <property name="name" value="Good Joe"/>
+    </bean>
 
 </beans>
