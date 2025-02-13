@@ -17,4 +17,9 @@ public class LaptopConfiguration {
     public OS os() {
         return new OS("ubuntu");
     }
+
+    @Bean
+    public HardDrive2 hardDrive() {
+        return new HardDrive2("SuperDuper", "Seagate");
+    }
 }
