@@ -18,4 +18,8 @@ public class DependsOnDemoConfig {
     public JDK jdk() {
         return new JDK();
     }
+
+    @Bean
+    @DependsOn(value = "jdk")
+    public BeanWhatDepends beanWhatDepends() { return new BeanWhatDepends(); }
 }
