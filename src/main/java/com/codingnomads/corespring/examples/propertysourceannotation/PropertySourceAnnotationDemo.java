@@ -8,9 +8,9 @@ public class PropertySourceAnnotationDemo {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(PropertySourceAnnotationConfig.class);
         ctx.refresh();
-        final App app = ctx.getBean(App.class);
-        System.out.println("Values from myapp.properties: " + "App Name: " + app.getAppName() + ", App Version: "
-                + app.getAppVersion());
+        final Lab lab = ctx.getBean(Lab.class);
+        System.out.println("Values from lab.properties: " + "Lab Name: " + lab.getLabName() + ", App Version: "
+                + lab.getLabVersion());
         ctx.close();
     }
 }
