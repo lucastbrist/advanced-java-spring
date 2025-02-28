@@ -13,9 +13,16 @@ public class Nomad {
 
     private Integer age;
 
-    public Nomad(@Value("${nomad.name}") String name, @Value("${nomad.age}") Integer age) {
+    private String favoriteFood;
+
+    private String petsName;
+
+    public Nomad(@Value("${nomad.name}") String name, @Value("${nomad.age}") Integer age, @Value("${nomad.favoriteFood]") String favoriteFood, @Value("${nomad.petsName}") String petsName) {
         this.name = name;
         this.age = age;
+        this.favoriteFood = favoriteFood;
+        this.petsName = petsName;
+
     }
 
     @Value("Hello!!")
