@@ -9,4 +9,7 @@ public class DesktopComputer {
 
     @Autowired
     private VideoCard videoCard;
+
+    @Autowired
+    private Screen screen;
 }
