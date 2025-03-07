@@ -21,6 +21,9 @@ public class Car {
     @Column(name = "horsepower")
     private int horsepower;
 
+    @OneToOne(mappedBy = "car")
+    private SteeringWheel steeringWheel;
+
     // note that this annotation and field is new
     @OneToOne(
             // used to indicate that this is the child side of a relationship and refer the JPA

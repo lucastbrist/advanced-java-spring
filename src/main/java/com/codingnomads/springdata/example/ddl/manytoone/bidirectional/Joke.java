@@ -1,15 +1,13 @@
-/* CodingNomads (C)2024 */
 package com.codingnomads.springdata.example.ddl.manytoone.bidirectional;
 
 import jakarta.persistence.*;
-import java.util.Set;
 import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Post {
+public class Joke {
 
     @Id
     @GeneratedValue
@@ -21,10 +19,6 @@ public class Post {
     @Column(nullable = false)
     private String content;
 
-    // this annotation references the configuration on the post field in the Comment class
-    @OneToMany(mappedBy = "post")
-    private Set<Comment> comments;
-
-    @OneToMany(mappedBy = "post")
-    private Set<Joke> jokes;
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    private Post post;
 }
