@@ -1,27 +1,28 @@
-/* CodingNomads (C)2024 */
 package com.codingnomads.springdata.example.ddl.manytomany.bidirectional;
 
 import jakarta.persistence.*;
-import lombok.*;
-
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Comment {
+public class Forum {
 
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(nullable = false, updatable = false)
-    private String username;
+    private String name;
 
     @Column(nullable = false)
-    private String content;
+    private String contentDescription;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    private Set<Gif> gifs;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Post> posts;
+
 }

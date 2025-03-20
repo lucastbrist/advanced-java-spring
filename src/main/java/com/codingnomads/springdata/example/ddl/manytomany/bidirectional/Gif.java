@@ -1,8 +1,9 @@
-/* CodingNomads (C)2024 */
 package com.codingnomads.springdata.example.ddl.manytomany.bidirectional;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
@@ -10,18 +11,17 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Comment {
+public class Gif {
 
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(nullable = false, updatable = false)
-    private String username;
+    private String url;
 
-    @Column(nullable = false)
-    private String content;
+    @ManyToMany(mappedBy = "gifs",
+            fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Comment> comments;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    private Set<Gif> gifs;
 }
