@@ -20,15 +20,18 @@ public class JpaRepoDemo implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        SoftDrink fanta = SoftDrink.builder().name("Fanta").rating(10).build();
-        SoftDrink coke = SoftDrink.builder().name("Coca-Cola").rating(4).build();
-        SoftDrink drPepper = SoftDrink.builder().name("Dr. Pepper").rating(1).build();
+        SoftDrink fanta = SoftDrink.builder().name("Fanta").rating(7).build();
+        SoftDrink coke = SoftDrink.builder().name("Coca-Cola").rating(2).build();
+        SoftDrink drPepper = SoftDrink.builder().name("Dr. Pepper").rating(10).build();
+        SoftDrink barqs = SoftDrink.builder().name("Barq's Root Beer").rating(5).build();
+        SoftDrink sprite = SoftDrink.builder().name("Sprite").rating(8).build();
+        SoftDrink mountainDew = SoftDrink.builder().name("Mountain Dew").rating(6).build();
 
         // save single entity instance
         fanta = softDrinkRepo.save(fanta);
 
         // save multiple entity instances at a time
-        List<SoftDrink> insertedSoftDrinks = softDrinkRepo.saveAll(List.of(coke, drPepper));
+        List<SoftDrink> insertedSoftDrinks = softDrinkRepo.saveAll(List.of(coke, drPepper, barqs, sprite, mountainDew));
 
         // make sure all entities are actually saved to the database
         softDrinkRepo.flush();
