@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class ResultsDemoApplication {
 
@@ -14,7 +16,7 @@ public class ResultsDemoApplication {
     }
 
     @Bean
-    public CommandLineRunner loadInitialData(SongMapper songMapper) {
+    public CommandLineRunner loadInitialData(SongMapper songMapper, CamelMapper camelMapper) {
         return (args) -> {
             // notice the setter names have changed to match Java naming conventions
             Song song1 = new Song();
@@ -34,6 +36,26 @@ public class ResultsDemoApplication {
 
             Song song3 = songMapper.getSongById(1L);
             System.out.println(song3.toString());
+
+            Camel camel1 = new Camel();
+            camel1.setName("Joe");
+            camel1.setHumpAmount(2);
+
+            Camel camel2 = new Camel();
+            camel2.setName("Some Other Famous Camel, IDK");
+            camel2.setHumpAmount(1);
+
+            camelMapper.insertNewCamel(camel1);
+            camelMapper.insertNewCamel(camel2);
+
+            System.out.println(camelMapper.getCamelById(camel1.getId()));
+
+            List<Camel> camelsNamedJoe = camelMapper.getCamelsByName("Joe");
+            camelsNamedJoe.forEach(System.out::println);
+
+            List<Camel> camelsWith1Hump = camelMapper.getCamelsByHumpAmount(1);
+            camelsWith1Hump.forEach(System.out::println);
+
         };
     }
 }
