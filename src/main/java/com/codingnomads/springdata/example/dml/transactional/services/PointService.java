@@ -94,4 +94,21 @@ public class PointService {
         throw new InterruptedException();
         // changes still commit
     }
+
+    @Transactional(timeout = 2)
+    public void countTo3() {
+        Thread thread = new Thread();
+        try {
+            thread.wait(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Transactional(timeout = 1)
+    public void instaTimeout() throws InterruptedException {
+        Thread.sleep(1000);
+        Point point = new Point(640000, 640000);
+        repo.save(point);
+    }
 }
