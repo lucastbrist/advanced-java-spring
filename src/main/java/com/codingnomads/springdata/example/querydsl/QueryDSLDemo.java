@@ -1,10 +1,7 @@
 /* CodingNomads (C)2024 */
 package com.codingnomads.springdata.example.querydsl;
 
-import com.codingnomads.springdata.example.querydsl.models.Area;
-import com.codingnomads.springdata.example.querydsl.models.QArea;
-import com.codingnomads.springdata.example.querydsl.models.Route;
-import com.codingnomads.springdata.example.querydsl.models.SearchQuery;
+import com.codingnomads.springdata.example.querydsl.models.*;
 import com.codingnomads.springdata.example.querydsl.repository.AreaRepository;
 import com.codingnomads.springdata.example.querydsl.repository.RouteRepository;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -95,6 +92,11 @@ public class QueryDSLDemo implements CommandLineRunner {
         JPAQuery<?> query = new JPAQuery<>(entityManager);
         Area area = query.select(qArea).from(qArea).where(qArea.code.eq("A")).fetchOne();
         System.out.println(area);
+
+        QRoute qRoute = QRoute.route;
+        JPAQuery<?> query2 = new JPAQuery<>(entityManager);
+        Route route = query2.select(qRoute).from(qRoute).where(qRoute.code.eq("A-Z")).fetchOne();
+        System.out.println(route);
 
         routeRepository.deleteAll();
         areaRepository.deleteAll();

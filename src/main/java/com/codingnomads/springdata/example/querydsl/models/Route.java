@@ -34,4 +34,14 @@ public class Route implements Serializable {
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_routes_destination_area_id"))
     private Area destination;
+
+    public String generateCode() {
+
+        String origin = this.origin.getCode();
+        String destination = this.destination.getCode();
+
+        String code = origin + "-" + destination;
+
+        return code;
+    }
 }
