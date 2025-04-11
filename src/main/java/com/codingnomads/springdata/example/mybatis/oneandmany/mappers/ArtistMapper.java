@@ -29,5 +29,20 @@ public interface ArtistMapper {
     Artist getArtistByIdWithSongs(Long id);
 
     @Select("SELECT * FROM mybatis.artists WHERE id = #{param1};")
+    @Results({
+            @Result(property = "id", column = "id"),
+            @Result(
+                    property = "songs",
+                    column = "id",
+                    javaType = List.class,
+                    many =
+                    @Many(
+                            select =
+                                    "com.codingnomads.springdata.example.mybatis.oneandmany.mappers.AlbumMapper.getAlbumsByArtistId",
+                            fetchType = FetchType.LAZY))
+    })
+    Artist getArtistByIdWithAlbums(Long id);
+
+    @Select("SELECT * FROM mybatis.artists WHERE id = #{param1};")
     Artist getArtistByIdWithoutSongs(Long id);
 }

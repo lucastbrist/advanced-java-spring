@@ -1,4 +1,3 @@
-/* CodingNomads (C)2024 */
 package com.codingnomads.springdata.example.mybatis.oneandmany.models;
 
 import java.util.List;
@@ -8,14 +7,14 @@ import lombok.ToString;
 
 @Data
 @NoArgsConstructor
-@ToString(exclude = "albums")
-public class Artist {
+@ToString(exclude = "songs")
+public class Album {
 
     private Long id;
 
     private String name;
 
-    private String bio;
+    private String year;
 
-    private List<Album> albums;
+    private List<Song> songs;
 }
