@@ -98,6 +98,10 @@ public class QueryDSLDemo implements CommandLineRunner {
         Route route = query2.select(qRoute).from(qRoute).where(qRoute.code.eq("A-Z")).fetchOne();
         System.out.println(route);
 
+        QRoute qRoute2 = QRoute.route;
+        JPAQuery<?> query3 = new JPAQuery<>(entityManager);
+        Route route2 = query3.select(qRoute2).from(qRoute2).where(qRoute2.destination.eq(qArea)).fetchOne();
+
         routeRepository.deleteAll();
         areaRepository.deleteAll();
     }
