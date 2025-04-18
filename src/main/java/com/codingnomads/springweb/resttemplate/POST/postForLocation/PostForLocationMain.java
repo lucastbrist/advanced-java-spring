@@ -5,6 +5,8 @@ import com.codingnomads.springweb.resttemplate.POST.models.ResponseObject;
 import com.codingnomads.springweb.resttemplate.POST.models.Task;
 import java.net.URI;
 import java.util.Objects;
+
+import com.codingnomads.springweb.resttemplate.POST.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,22 +28,20 @@ public class PostForLocationMain {
     @Bean
     public CommandLineRunner run() throws Exception {
         return args -> {
-            Task newTask = Task.builder()
-                    .name("learn how to use postForLocation()")
-                    .description("get comfortable using the RestTemplate postForLocation() method")
-                    // be sure to use a valid user id
-                    .userId(380)
-                    .completed(false)
+            User newUser = User.builder()
+                    .email("cooladdress420@gmail.com")
+                    .first_name("Coolguy")
+                    .last_name("Fawkes")
                     .build();
 
             // use postForLocation() to get the URL for the new resource
             URI returnedLocation = restTemplate.postForLocation(
-                    "http://demo.codingnomads.co:8080/tasks_api/tasks", newTask, ResponseObject.class);
+                    "http://demo.codingnomads.co:8080/tasks_api/tasks/users", newUser, ResponseObject.class);
 
             System.out.println(Objects.requireNonNull(returnedLocation));
 
             ResponseEntity<?> responseEntity = restTemplate.postForEntity(
-                    "http://demo.codingnomads.co:8080/tasks_api/tasks", newTask, ResponseObject.class);
+                    "http://demo.codingnomads.co:8080/tasks_api/tasks/users", newUser, ResponseObject.class);
 
             System.out.println(responseEntity.getHeaders().get("Location"));
         };

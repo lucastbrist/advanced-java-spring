@@ -3,6 +3,7 @@ package com.codingnomads.springweb.resttemplate.PUT;
 
 import com.codingnomads.springweb.resttemplate.PUT.models.ResponseObject;
 import com.codingnomads.springweb.resttemplate.PUT.models.Task;
+import com.codingnomads.springweb.resttemplate.PUT.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,47 +28,53 @@ public class PutMain {
     public CommandLineRunner run() throws Exception {
         return args -> {
 
-            // use a valid task id
-            int taskId = 171;
+            int taskId = 11547;
 
-            // request Task 5 from server
             ResponseObject responseObject = restTemplate.getForObject(
-                    "http://demo.codingnomads.co:8080/tasks_api/tasks/" + taskId, ResponseObject.class);
+                    "http://demo.codingnomads.co:8080/tasks_api/users/" + taskId, ResponseObject.class);
 
-            // confirm data was retrieved & avoid NullPointerExceptions
             Task taskToUpdate;
             if (responseObject == null) {
                 throw new Exception("The server did not return anything. Not even a ResponseObject!");
             } else if (responseObject.getData() == null) {
-                throw new Exception("The task with ID " + taskId + " could not be found");
+                throw new Exception("The user with ID " + taskId + " could not be found");
             } else {
                 taskToUpdate = responseObject.getData();
             }
 
-            // update the task information
-            taskToUpdate.setName("updated using put() - video demo ");
-            taskToUpdate.setDescription("this task was updated using RestTemplate's put() method - video demo");
-            taskToUpdate.setCompleted(false);
+            User userToUpdate = User.builder().build();
+            userToUpdate.setEmail("newemail@newemail.com");
+            userToUpdate.setFirst_name("New First Name");
+            userToUpdate.setLast_name("New Last Name");
+            userToUpdate.setId(taskId);
 
             // use put to update the resource on the server
-            restTemplate.put("http://demo.codingnomads.co:8080/tasks_api/tasks/" + taskToUpdate.getId(), taskToUpdate);
+            restTemplate.put("http://demo.codingnomads.co:8080/tasks_api/users/" + userToUpdate.getId(), userToUpdate);
             // get the task to verify update
             responseObject = restTemplate.getForObject(
-                    "http://demo.codingnomads.co:8080/tasks_api/tasks/" + taskId, ResponseObject.class);
+                    "http://demo.codingnomads.co:8080/tasks_api/users/" + taskId, ResponseObject.class);
             System.out.println(responseObject.toString());
 
-            taskToUpdate.setName("updated using exchange() PUT - video demo 2");
-            taskToUpdate.setDescription("this task was updated using RestTemplate's exchange() method - video demo 2");
+            userToUpdate.setEmail("now updated with exchange");
+            userToUpdate.setFirst_name("Exchange");
+            userToUpdate.setLast_name("Student");
 
             // create an HttpEntity wrapping the task to update
-            HttpEntity<Task> httpEntity = new HttpEntity<>(taskToUpdate);
-            // use exchange() to PUT the HttpEntity, and map the response to a ResponseEntity
-            ResponseEntity<ResponseObject> response = restTemplate.exchange(
-                    "http://demo.codingnomads.co:8080/tasks_api/tasks/" + taskToUpdate.getId(),
-                    HttpMethod.PUT,
-                    httpEntity,
-                    ResponseObject.class);
-            System.out.println(response.toString());
+            HttpEntity<User> httpEntity = new HttpEntity<>(userToUpdate);
+
+            // use exchange() to PUT the HttpEntity
+            // and map the response to a ResponseEntity
+            ResponseEntity<ResponseObject> response =
+                    restTemplate.exchange(
+                            "http://demo.codingnomads.co:8080/tasks_api/users/" +
+                                    userToUpdate.getId(),
+                            HttpMethod.PUT,
+                            httpEntity,
+                            ResponseObject.class
+                    );
+            System.out.println(response);
+
         };
+
     }
 }
