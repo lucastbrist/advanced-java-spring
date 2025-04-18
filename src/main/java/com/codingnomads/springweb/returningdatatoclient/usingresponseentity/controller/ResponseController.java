@@ -38,4 +38,17 @@ public class ResponseController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
-}
+
+    @GetMapping("/practice")
+    public ResponseEntity<?> practice() {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+    @GetMapping("/practiceCreate")
+    public ResponseEntity<?> practiceCreate() {
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
+    }
+
+
