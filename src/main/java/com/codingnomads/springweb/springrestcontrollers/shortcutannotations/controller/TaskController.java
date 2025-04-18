@@ -58,4 +58,13 @@ public class TaskController {
         taskRepository.deleteById(id);
         return ResponseEntity.ok().body(id);
     }
+
+    @PutMapping("/{id}")
+    public void updateTask(@PathVariable Long id, Task task) {
+        if (id == null || !taskRepository.existsById(id)) {
+            throw new IllegalStateException();
+        }
+        taskRepository.save(task);
+    }
+
 }
