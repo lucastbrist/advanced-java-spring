@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Controller
 public class UserController {
 
@@ -34,5 +37,34 @@ public class UserController {
     @GetMapping("/user")
     public User user() {
         return user;
+    }
+
+
+    // LIST!
+
+    public User newUser1 = User.builder()
+            .id(3000)
+            .name("Luke Skywalker")
+            .email("jedi@holo.net")
+            .build();
+
+    public User newUser2 = User.builder()
+            .id(3001)
+            .name("Leia Organa")
+            .email("royalpain@holo.net")
+            .build();
+
+    public User newUser3 = User.builder()
+            .id(3002)
+            .name("Han Solo")
+            .email("flyboy@holo.net")
+            .build();
+
+    List<User> userList = Arrays.asList(newUser1, newUser2, newUser3);
+
+    @ResponseBody
+    @GetMapping("/user-list")
+    public List listResponseBody() {
+        return userList;
     }
 }
