@@ -33,6 +33,18 @@ public class TaskController {
                 .body(savedTask);
     }
 
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Task> createNewTask2(@RequestBody Task task) throws URISyntaxException {
+
+        if (StringUtils.isEmpty(task.getName()) || task.getId() != null) {
+            throw new IllegalStateException();
+        }
+        final Task savedTask2 = taskRepository.save(task);
+
+        return ResponseEntity.created(new URI("/api/tasks/" + savedTask2.getId()))
+                .body(savedTask2);
+    }
+
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Task> getTask(@PathVariable Long id) {
 
