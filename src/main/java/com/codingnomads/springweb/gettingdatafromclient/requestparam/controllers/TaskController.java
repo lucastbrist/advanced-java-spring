@@ -43,4 +43,24 @@ public class TaskController {
                 .mapToObj(i -> Task.builder().id((long) i).name(names.get(i)).build())
                 .collect(Collectors.toList());
     }
+
+    @GetMapping(value = "/request-param-by-id", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Task getTaskById(@RequestParam(name = "id", required = true) Long taskId) {
+        if (taskId != null) {
+            return Task.builder().id(taskId).name("Task One").build();
+        } else return Task.builder().name("Task One").build();
+    }
+
+    @GetMapping(value = "/request-param-by-name", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Task getTaskByName(@RequestParam(name = "name", required = true) String taskName) {
+        return Task.builder().name(taskName).build();
+    }
+
+    @GetMapping(value = "/request-parameter-id-list", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Task> getTasksWithIds(@RequestParam(name = "ids") List<Long> ids) {
+        return IntStream.range(0, ids.size())
+                .mapToObj(i -> Task.builder().id((long) i).name("Task " + i).build())
+                .collect(Collectors.toList());
+    }
+
 }
