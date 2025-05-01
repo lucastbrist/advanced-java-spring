@@ -49,4 +49,29 @@ public class TaskController {
             return ResponseEntity.ok().body(message);
         }
     }
+
+    @PostMapping(value = "/add-one")
+    public ResponseEntity<?> addOne(@RequestBody(required = false) String number) {
+
+        if (number == null) {
+            System.out.println("You did not pass in a number!");
+        }
+
+        int toAdd = Integer.parseInt((number));
+
+        return ResponseEntity.ok().body(toAdd + 1);
+    }
+
+    @PostMapping(value = "/dad-joke")
+    public ResponseEntity<?> dadJoke(@RequestBody(required = false) String introduction) {
+
+        if (introduction == null) {
+            System.out.println("You did not introduce yourself!");
+        }
+
+
+
+        return ResponseEntity.ok().body("Hi " + introduction + ", I'm dad!");
+    }
+
 }
