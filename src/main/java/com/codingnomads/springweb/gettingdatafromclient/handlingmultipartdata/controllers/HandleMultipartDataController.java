@@ -178,13 +178,50 @@ public class HandleMultipartDataController {
                 "File with ID " + fileId + " and name " + optional.get().getFileName() + " was deleted");
     }
 
-    // @PostMapping("/uploadSingleFile")
-    @PostMapping()
-    public void duplicateFile(Long id, String name) {
+    public ResponseEntity<?> uploadDatabaseFile(@RequestBody DatabaseFile dbFile) {
 
-        ResponseEntity<?> originalFile = downloadFileById(id);
-        MultipartFile fileToUpload = (MultipartFile) originalFile;
-        uploadFile(fileToUpload);
+        if (dbFile == null) {
+            return ResponseEntity.badRequest()
+                    .body(new IllegalStateException("Sorry did not receive a file, please try again!"));
+        } else {
+
+            dbFile.setDownloadUrl(ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/images/")
+                    .path(String.valueOf(dbFile.getId()))
+                    .toUriString());
+
+            // create a FileResponse object using file info and wrap it in a ResponseEntity
+            return ResponseEntity.ok(FileResponse.builder()
+                    .fileName(dbFile.getFileName())
+                    .fileDownloadUri(dbFile.getDownloadUrl())
+                    .fileType(dbFile.getFileType())
+                    .size(dbFile.getData().length)
+                    .build());
+        }
+
+    }
+
+    @PostMapping("/duplicateFile/{id}")
+    public ResponseEntity<?> duplicateFile(@PathVariable(name = "id") Long id, String name) {
+
+        Optional<DatabaseFile> fileToDupe;
+        if (fileRepository.findById(id).isEmpty()) {
+            return ResponseEntity.badRequest()
+                    .body(new IllegalStateException("There is no file by that ID. Please try again!"));
+        } else {
+
+            fileToDupe = fileRepository.findById(id);
+            fileToDupe.get().setFileName(name);
+            uploadDatabaseFile(fileToDupe.orElse(null));
+
+        }
+
+        return ResponseEntity.ok(FileResponse.builder()
+                .fileName(fileToDupe.get().getFileName())
+                .fileDownloadUri(fileToDupe.get().getDownloadUrl())
+                .fileType(fileToDupe.get().getFileType())
+                .size(fileToDupe.get().getData().length)
+                .build());
 
     }
 
