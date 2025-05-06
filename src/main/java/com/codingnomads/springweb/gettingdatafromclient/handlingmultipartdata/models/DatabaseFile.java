@@ -21,6 +21,7 @@ public class DatabaseFile {
     private String fileType;
 
     @Lob
+    @Column(columnDefinition="blob")
     private byte[] data;
 
     @Transient

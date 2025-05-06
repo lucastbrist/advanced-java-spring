@@ -6,6 +6,8 @@ import com.codingnomads.springweb.gettingdatafromclient.handlingmultipartdata.mo
 import com.codingnomads.springweb.gettingdatafromclient.handlingmultipartdata.repositories.DatabaseFileRepository;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +74,7 @@ public class HandleMultipartDataController {
     }
 
     // @GetMapping("/download/{id}")
-    @GetMapping("/{id}")
+    @GetMapping("/download/{id}")
     public ResponseEntity<?> downloadFileById(@PathVariable(name = "id") Long fileId) {
 
         final Optional<DatabaseFile> optional = fileRepository.findById(fileId);
@@ -86,14 +88,40 @@ public class HandleMultipartDataController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(databaseFile.getFileType()))
                 // display the file inline
-                // .header(HttpHeaders.CONTENT_DISPOSITION, "inline")
+                //.header(HttpHeaders.CONTENT_DISPOSITION, "inline").body(new ByteArrayResource(databaseFile.getData()));
                 // download file, without setting file name
-                // .header(HttpHeaders.CONTENT_DISPOSITION, "attachment")
+                //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment")
                 // download file, and specify file name
                 .header(
                         HttpHeaders.CONTENT_DISPOSITION,
                         String.format("attachment; filename=\"%s\"", databaseFile.getFileName()))
                 .body(new ByteArrayResource(databaseFile.getData()));
+    }
+
+    // search for all that match
+    @GetMapping("/{name}")
+    public List<FileResponse> searchFilesByName(@PathVariable(name = "name") String name) {
+
+        System.out.println("you've hit this breakpoint!!!!");
+
+        List<DatabaseFile> dbResults = (fileRepository.findAllByFileName(name));
+
+        if (dbResults.isEmpty()) {
+            System.out.println("No files found with name: " + name);
+        }
+
+        List<FileResponse> results = new ArrayList<FileResponse>();
+
+        for (int i = 0; i < dbResults.size(); i++) {
+            StringBuilder stringBuilder = new StringBuilder("http://localhost:8080/images/download/");
+            results.add(FileResponse.builder()
+                    .fileName(dbResults.get(i).getFileName())
+                    .fileDownloadUri(stringBuilder.append(dbResults.get(i).getId()).toString())
+                    .fileType(dbResults.get(i).getFileType())
+                    .build());
+        }
+
+        return results;
     }
 
     // @PutMapping("/uploadSingleFile/{id}")
@@ -149,4 +177,15 @@ public class HandleMultipartDataController {
         return ResponseEntity.ok(
                 "File with ID " + fileId + " and name " + optional.get().getFileName() + " was deleted");
     }
+
+    // @PostMapping("/uploadSingleFile")
+    @PostMapping()
+    public void duplicateFile(Long id, String name) {
+
+        ResponseEntity<?> originalFile = downloadFileById(id);
+        MultipartFile fileToUpload = (MultipartFile) originalFile;
+        uploadFile(fileToUpload);
+
+    }
+
 }
