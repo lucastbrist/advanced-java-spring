@@ -3,6 +3,7 @@ package com.codingnomads.springtest.understandingandusingprofiles;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -32,4 +33,11 @@ public class TestDataLoader implements CommandLineRunner {
                 .sugar(true)
                 .build());
     }
+
+    @Bean
+    @Profile("test")
+    public void runWithTestOnly() {
+        System.out.println("I'm running when test is active!");
+    }
+
 }
