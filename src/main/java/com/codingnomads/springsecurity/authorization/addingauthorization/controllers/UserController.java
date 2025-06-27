@@ -8,6 +8,9 @@ import com.codingnomads.springsecurity.authorization.addingauthorization.reposit
 import com.codingnomads.springsecurity.authorization.addingauthorization.services.CustomUserService;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,16 +49,19 @@ public class UserController {
     }
 
     @GetMapping("/get-id")
+    @PreAuthorize("hasRole('SUPERU')")
     public Long getId(@RequestBody String username) throws NoSuchElementException {
         return userPrincipalRepo.findByUsername(username).get().getId();
     }
 
     @GetMapping("/get-username")
+    @PostAuthorize("hasAnyRole('USER','ADMIN','SUPERU')")
     public String getUsername(@RequestBody Long id) throws NoSuchElementException {
         return userPrincipalRepo.findById(id).get().getUsername();
     }
 
     @GetMapping("/get-email")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getEmail(@RequestBody Long id) throws NoSuchElementException {
         return userPrincipalRepo.findById(id).get().getUserMeta().getEmail();
     }
