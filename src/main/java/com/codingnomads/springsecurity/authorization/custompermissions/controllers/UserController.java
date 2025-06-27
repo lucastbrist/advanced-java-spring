@@ -35,4 +35,12 @@ public class UserController {
         userService.deleteUser(id);
         return ("deleted user with id: " + id);
     }
+
+    @PostMapping("/update-user")
+    @ResponseBody
+    @PreAuthorize("hasPermission(#id, 'com.codingnomads.springscurity.authorization.custompermissions.models.User', 'UPDATE')")
+    public String updateEntity(@PathVariable Long id) {
+        userService.updateUser(id);
+        return ("updated user with id: " + id);
+    }
 }
