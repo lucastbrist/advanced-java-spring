@@ -36,6 +36,15 @@ public class SecurityConfig {
                         // only allow users with an UPDATER authority to update users.
                         .requestMatchers("/update-user")
                         .hasAuthority("UPDATER")
+                        // lab: only admin can get email
+                        .requestMatchers("/get-email")
+                        .hasRole("ADMIN")
+                        // lab: only superu can get id
+                        .requestMatchers(("/get-id"))
+                        .hasRole("SUPERU")
+                        // lab: any user can get username
+                        .requestMatchers("/get-username")
+                        .permitAll()
                         // make sure that all others requests require authentication.
                         .anyRequest()
                         .authenticated())

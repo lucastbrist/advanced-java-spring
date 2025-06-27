@@ -5,11 +5,14 @@ import com.codingnomads.springsecurity.authorization.addingauthorization.models.
 import com.codingnomads.springsecurity.authorization.addingauthorization.models.UserPrincipal;
 import com.codingnomads.springsecurity.authorization.addingauthorization.repositories.UserMetaRepo;
 import com.codingnomads.springsecurity.authorization.addingauthorization.repositories.UserPrincipalRepo;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CustomUserService implements UserDetailsService {
@@ -35,4 +38,10 @@ public class CustomUserService implements UserDetailsService {
         userPrincipal.setUserMeta(userToUpdate);
         return updatedUser;
     }
-}
+
+    public Optional<UserMeta> createUser(UserPrincipal userToCreate) throws NotFoundException {
+        userPrincipalRepo.save(userToCreate);
+        return Optional.ofNullable(userMetaRepo.findById(userToCreate.getId()).orElseThrow(() -> new NotFoundException("User not found with ID : " + userToCreate.getId())));
+        }
+    }
+
