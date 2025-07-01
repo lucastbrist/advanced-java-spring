@@ -21,4 +21,6 @@ public class UserService {
     }
 
     public void updateUser(Long id) { userRepository.updateUserById(id); }
+
+    public void createUser(User user) { userRepository.save(user); }
 }

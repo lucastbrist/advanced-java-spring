@@ -43,4 +43,12 @@ public class UserController {
         userService.updateUser(id);
         return ("updated user with id: " + id);
     }
+
+    @PostMapping("/create-user")
+    @ResponseBody
+    @PreAuthorize("hasPermission(#id, 'com.codingnomads.springscurity.authorization.custompermissions.models.User', 'CREATE')")
+    public void createEntity(@RequestParam User user) {
+        userService.createUser(user);
+    }
+
 }
