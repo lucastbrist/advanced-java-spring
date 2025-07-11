@@ -38,4 +38,15 @@ public class ServiceAspect {
                 + jp.getSignature().getName());
         LOGGER.info("Result: = " + students);
     }
+
+    @Before("execution(* com.codingnomads.aspectorientedprogramming.aop.service.StudentService.saveStudent())")
+    public void saveBeforeAdvice(JoinPoint joinPoint) {
+        LOGGER.info("Before executin' : " + joinPoint.getSignature().getName());
+    }
+
+    @After("execution(* com.codingnomads.aspectorientedprogramming.aop.service.StudentService.saveStudent())")
+    public void saveAfterAdvice(JoinPoint joinPoint) {
+        LOGGER.info("After executin' : " + joinPoint.getSignature().getName());
+    }
+
 }

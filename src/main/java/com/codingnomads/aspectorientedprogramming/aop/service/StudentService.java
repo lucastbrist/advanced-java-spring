@@ -24,4 +24,6 @@ public class StudentService {
     public List<Student> saveAllStudents(List<Student> students) {
         return studentRepository.saveAll(students);
     }
+
+    public Student saveStudent(Student student) { return studentRepository.save(student); }
 }
